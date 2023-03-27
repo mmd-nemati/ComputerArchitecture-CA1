@@ -10,26 +10,50 @@ z2
 cModel Technology
 dD:/uni/term 4/Memari/CA1
 vmazeMemory
-!s110 1679926457
+!s110 1679930015
 !i10b 1
-!s100 d3iQb2obOdh9>En0`?e3T2
-!s11b Dg1SIo80bB@j0V0VzS_@n1
-IQjdNH`6ShiF=kdkYP>RmS3
-VDg1SIo80bB@j0V0VzS_@n1
-dD:/uni/term 4/Memari/ComputerArchitecture-CA1
-w1679926440
+!s100 ?kbMe8X<`a;5_B`Q6ohZh2
+Z0 !s11b Dg1SIo80bB@j0V0VzS_@n1
+I`e6X>:PR@>Yc2UY^GCoIc0
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+Z2 dD:/uni/term 4/Memari/ComputerArchitecture-CA1
+w1679929750
 8D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v
 FD:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v
-!i122 14
-L0 3 28
-OV;L;2020.1;71
+!i122 33
+L0 3 32
+Z3 OV;L;2020.1;71
 r1
 !s85 0
 31
-!s108 1679926457.000000
+!s108 1679930015.000000
 !s107 D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v|
 !s90 -reportprogress|300|-work|work|-stats=none|D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v|
 !i113 1
-o-work work
-tCvgOpt 0
+Z4 o-work work
+Z5 tCvgOpt 0
 nmaze@memory
+vmazeMemoryTB
+!s110 1679930168
+!i10b 1
+!s100 F2B?hTC5mTP0BF9Oa>_S[0
+R0
+IkPWN<L@<BR^YzXQA2T8n<0
+R1
+R2
+w1679930158
+8D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemoryTB.v
+FD:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemoryTB.v
+!i122 35
+L0 3 28
+R3
+r1
+!s85 0
+31
+!s108 1679930168.000000
+!s107 D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemoryTB.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemoryTB.v|
+!i113 1
+R4
+R5
+nmaze@memory@t@b

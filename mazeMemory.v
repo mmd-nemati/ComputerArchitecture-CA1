@@ -17,6 +17,8 @@ module mazeMemory(clk, x, y, rd, wr, dIn, dOut);
         // end
 
         always @(posedge clk, posedge rd) begin
+                dOut <= 1'b0;
+
                 if (rd) begin 
                         dOut <= map[x][y];
                 end
