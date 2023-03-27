@@ -7,7 +7,7 @@ module stackTB();
         reg _push = 1'b0; 
         reg [3:0] _xIn, _yIn;
         wire [3:0] _xOut, _yOut;
-        wire _fail = 1'b0;
+        // wire _fail = 1'b0;
         stack CUT2(.clk(_clk), .xIn(_xIn), .yIn(_yIn), .rst(_rst), .push(_push), .pop(_pop), .xOut(_xOut), .yOut(_yOut), .fail(_fail));
 
         always #5 _clk <= ~_clk;
