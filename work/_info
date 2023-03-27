@@ -1,6 +1,7 @@
 m255
 K4
 z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
 13
 !s112 1.1
 !i10d 8192
@@ -8,3 +9,27 @@ z2
 !i10f 100
 cModel Technology
 dD:/uni/term 4/Memari/CA1
+vmazeMemory
+!s110 1679926457
+!i10b 1
+!s100 d3iQb2obOdh9>En0`?e3T2
+!s11b Dg1SIo80bB@j0V0VzS_@n1
+IQjdNH`6ShiF=kdkYP>RmS3
+VDg1SIo80bB@j0V0VzS_@n1
+dD:/uni/term 4/Memari/ComputerArchitecture-CA1
+w1679926440
+8D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v
+FD:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v
+!i122 14
+L0 3 28
+OV;L;2020.1;71
+r1
+!s85 0
+31
+!s108 1679926457.000000
+!s107 D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v|
+!i113 1
+o-work work
+tCvgOpt 0
+nmaze@memory

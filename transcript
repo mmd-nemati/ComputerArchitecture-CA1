@@ -1,0 +1,161 @@
+# vlog -work work -stats=none {D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# -- Compiling module mazeMemory
+# 
+# Top level modules:
+# 	mazeMemory
+# 
+# 
+vsim -gui work.mazeMemory
+# vsim -gui work.mazeMemory 
+# Start time: 16:41:07 on Mar 27,2023
+# Loading work.mazeMemory
+run -all
+# i :           0 -> 1000110001010010
+# i :           1 -> 0010011010001000
+# i :           2 -> 0000000000000000
+# i :           3 -> 1100010100011001
+quit -sim
+# End time: 16:50:45 on Mar 27,2023, Elapsed time: 0:09:38
+# Errors: 0, Warnings: 2
+# vlog -work work -stats=none {D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# -- Compiling module mazeMemory
+# 
+# Top level modules:
+# 	mazeMemory
+# 
+# 
+vsim -gui work.mazeMemory
+# vsim -gui work.mazeMemory 
+# Start time: 16:51:02 on Mar 27,2023
+# Loading work.mazeMemory
+run -all
+# i :           0 -> 1000110001010010
+# i :           1 -> 0010011010001000
+# i :           2 -> 0000000000000000
+# i :           3 -> 1100010100011001
+# i :           4 -> 0010001000100000
+# i :           5 -> 1100001000001001
+# i :           6 -> 0010100010100010
+# i :           7 -> 0010110010010001
+# i :           8 -> 1100000100111010
+# i :           9 -> 0000011010010001
+# i :          10 -> 0100110000101000
+# i :          11 -> 0010100110000000
+# i :          12 -> 1111111100001110
+# i :          13 -> 0101010101011010
+# i :          14 -> 0000011100001000
+quit -sim
+# End time: 17:43:20 on Mar 27,2023, Elapsed time: 0:52:18
+# Errors: 0, Warnings: 2
+# vlog -work work -stats=none {D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# -- Compiling module mazeMemory
+# 
+# Top level modules:
+# 	mazeMemory
+# 
+# 
+vsim -gui work.mazeMemory
+# vsim -gui work.mazeMemory 
+# Start time: 18:25:07 on Mar 27,2023
+# Loading work.mazeMemory
+run -all
+# i :           0 -> a1a1
+# i :           1 -> b2b2
+# i :           2 -> c3c3
+# i :           3 -> d4d4
+# i :           4 -> f5f5
+# i :           5 -> a6a6
+# i :           6 -> b7b7
+# i :           7 -> c8c8
+# i :           8 -> d9d9
+# i :           9 -> e1e2
+# i :          10 -> f2f2
+# i :          11 -> a3a3
+# i :          12 -> b4b4
+# i :          13 -> c5c5
+# i :          14 -> d6d6
+quit -sim
+# End time: 18:25:55 on Mar 27,2023, Elapsed time: 0:00:48
+# Errors: 0, Warnings: 2
+# vlog -work work -stats=none {D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# -- Compiling module mazeMemory
+# 
+# Top level modules:
+# 	mazeMemory
+# 
+# 
+vsim -gui work.mazeMemory
+# vsim -gui work.mazeMemory 
+# Start time: 18:26:06 on Mar 27,2023
+# Loading work.mazeMemory
+run -all
+# i :           0 -> 1010000110100001
+# i :           1 -> 1011001010110010
+# i :           2 -> 1100001111000011
+# i :           3 -> 1101010011010100
+# i :           4 -> 1111010111110101
+# i :           5 -> 1010011010100110
+# i :           6 -> 1011011110110111
+# i :           7 -> 1100100011001000
+# i :           8 -> 1101100111011001
+# i :           9 -> 1110000111100010
+# i :          10 -> 1111001011110010
+# i :          11 -> 1010001110100011
+# i :          12 -> 1011010010110100
+# i :          13 -> 1100010111000101
+# i :          14 -> 1101011011010110
+# test: 1011001010110010, 0
+quit -sim
+# End time: 18:43:38 on Mar 27,2023, Elapsed time: 0:17:32
+# Errors: 0, Warnings: 2
+# vlog -work work -stats=none {D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# -- Compiling module mazeMemory
+# ** Error: D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v(23): (vlog-2110) Illegal reference to net "dOut".
+# 
+# 
+# vlog -work work -stats=none {D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# -- Compiling module mazeMemory
+# 
+# Top level modules:
+# 	mazeMemory
+# 
+# 
+# vlog -work work -stats=none {D:/uni/term 4/Memari/ComputerArchitecture-CA1/mazeMemory.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# -- Compiling module mazeMemory
+# 
+# Top level modules:
+# 	mazeMemory
+# 
+# 
+vsim -gui work.mazeMemory
+# vsim -gui work.mazeMemory 
+# Start time: 18:44:24 on Mar 27,2023
+# Loading work.mazeMemory
+run -all
+# i :           0 -> 1010000110100001
+# i :           1 -> 1011001010110010
+# i :           2 -> 1100001111000011
+# i :           3 -> 1101010011010100
+# i :           4 -> 1111010111110101
+# i :           5 -> 1010011010100110
+# i :           6 -> 1011011110110111
+# i :           7 -> 1100100011001000
+# i :           8 -> 1101100111011001
+# i :           9 -> 1110000111100010
+# i :          10 -> 1111001011110010
+# i :          11 -> 1010001110100011
+# i :          12 -> 1011010010110100
+# i :          13 -> 1100010111000101
+# i :          14 -> 1101011011010110
+# i :          15 -> 1110011111100111
+# test: 1011001010110010, 0
+quit -sim
+# End time: 18:45:07 on Mar 27,2023, Elapsed time: 0:00:43
+# Errors: 0, Warnings: 4
