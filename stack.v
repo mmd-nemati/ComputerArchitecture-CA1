@@ -9,10 +9,11 @@ module stack(clk, xIn, rst, yIn, push, pop, xOut, yOut, fail);
         reg [7:0] stackMem [0:255];
         reg [5:0] pointer = 6'b0;
         integer i = 0;
+
         always @(posedge clk, posedge rst) begin
                 {fail, xOut, yOut} = 9'b0;        
                 if (rst) begin
-                        for (i = 0; i < 8; i = i + 1)
+                        for (i = 0; i < 256; i = i + 1)
                                 stackMem[i] <= 8'h00;
                 end
 
