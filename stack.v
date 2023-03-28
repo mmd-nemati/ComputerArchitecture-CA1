@@ -9,9 +9,6 @@ module stack(clk, xIn, rst, yIn, push, pop, xOut, yOut, fail);
         reg [7:0] stackMem [0:255];
         reg [5:0] pointer = 6'b0;
         integer i = 0;
-        initial begin
-                $monitor("monitoring: ", stackMem[pointer]);
-        end
         always @(posedge clk, posedge rst) begin
                 {fail, xOut, yOut} = 9'b0;        
                 if (rst) begin
@@ -20,21 +17,19 @@ module stack(clk, xIn, rst, yIn, push, pop, xOut, yOut, fail);
                 end
 
                 else if (push) begin
-                        pointer <= pointer + 1;
-                        stackMem[pointer] <= {xIn, yIn};
-                        $display("push. x: %h y: %h", xIn, yIn);
-                        $display("push displaying... ", stackMem[pointer]);
+                        pointer = pointer + 1;
+                        stackMem[pointer][7:4] = xIn;
+                        stackMem[pointer][3:0] = yIn;
                 end
                 
                 else if (pop && pointer > 0) begin
-                        xOut <= stackMem[pointer][7:4];
-                        yOut <= stackMem[pointer][3:0];
-                        pointer <= pointer - 1;
-                        $display("pop displaying... ", stackMem[pointer]);
+                        xOut = stackMem[pointer][7:4];
+                        yOut = stackMem[pointer][3:0];
+                        pointer = pointer - 1;
                 end
                 
                 else if (pop && pointer <= 0) begin
-                        fail <= 1'b1;
+                        fail = 1'b1;
                 end
         end
 endmodule
