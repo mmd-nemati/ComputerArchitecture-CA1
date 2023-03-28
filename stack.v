@@ -15,6 +15,7 @@ module stack(clk, xIn, rst, yIn, push, pop, xOut, yOut, fail);
                 if (rst) begin
                         for (i = 0; i < 256; i = i + 1)
                                 stackMem[i] <= 8'h00;
+                        pointer = 6'b0;
                 end
 
                 else if (push) begin
