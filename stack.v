@@ -1,17 +1,17 @@
 `timescale 1ns/1ns
 
-module stack(clk, xIn, rst, yIn, push, pop, xOut, yOut, fail);
+module stack(clk, xIn, rst, yIn, push, pop, xOut, yOut, empty);
         input clk, rst;
         input [3:0] xIn, yIn;
         input push, pop;
         output reg [3:0] xOut, yOut;
-        output reg fail;
+        output reg empty;
         reg [7:0] stackMem [0:255];
         reg [5:0] pointer = 6'b0;
         integer i = 0;
 
         always @(posedge clk, posedge rst) begin
-                {fail, xOut, yOut} = 9'b0;        
+                {empty, xOut, yOut} = 9'b0;        
                 if (rst) begin
                         for (i = 0; i < 256; i = i + 1)
                                 stackMem[i] <= 8'h00;
@@ -31,7 +31,7 @@ module stack(clk, xIn, rst, yIn, push, pop, xOut, yOut, fail);
                 end
                 
                 else if (pop && pointer <= 0) begin
-                        fail = 1'b1;
+                        empty = 1'b1;
                 end
         end
 endmodule
