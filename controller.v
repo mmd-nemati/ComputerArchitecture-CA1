@@ -1,60 +1,79 @@
 `timescale 1ns/1ns
-`define A 4'd0;
-`define B 4'd1;
-`define C 4'd2;
-`define D 4'd3;
-`define E 4'd4;
-`define F 4'd5;
-`define G 4'd6;
-`define H 4'd7;
-`define I 4'd8;
+`define S0 5'd0;
+`define S1 5'd1;
+`define S2 5'd2;
+`define S3 5'd3;
+`define S4 5'd4;
+`define S5 5'd5;
+`define S6 5'd6;
+`define S7 5'd7;
+`define S8 5'd8;
+`define S9 5'd9;
+`define S10 5'd10;
+`define S11 5'd11;
 
-module controller(clk, rst, isWall, wrong, emptyStack, xData, yData start, wr, rd, fail, done, move, setWall, dir, run, regLd);
-        input clk, rst, isWall, wrong, start;
-        inout [3:0] xData, yData; //inOUT
-        output reg wr, rd, fail, done, move, setWall, dir, run, regLd;
-        reg [2:0] ns, ps;
-        wire co = 1'b0;
+module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
+                 wr, rd, fail, done, move, dir, rgLd, pop, currLoc, push, dOut);
+        input clk, rst, start, cntReach, empStck , dIn, run;
+        input [7:0] nxtLoc;
+        
+        output [7:0] currLoc;
+        output wr, rd, fail, done, move, dir, rgLd, pop, push, dOut;
 
+        wire [1:0] dir = 2'b0;
+        wire noDir;
+        wire isDestination = &currLoc;
 
-        always @(ps, start, wrong, isWall) begin
-                ns = `A;
-                case (ps)
-                        `A: ns= start ? `B : `A;
-                        `B: ns= `C;
-                        `C: ns= (&{xData, yData}) ? `D : `E;
-                        `D: ns= `I;
-                        `D: ns= (wrong || isWall) ? `D : `E;
-                        `E: ns= ((isWall || wrong) && ~co) ? `E :
-                                co ? `F: `C;
-                        `F: ns= emptyStack ? `H : `C;
-                        `G: ns= `A;
-                        `H: ns= `A;
-                        default: ns= `A;  
-                endcase
-        end
+        reg [3:0] ns, ps;
+        reg rst, rgLd, noDir, done, move, push, pop;
 
         always @(posedge clk, posedge rst) begin
-                if (rst) begin
-                        ps <= `A;
-                end
-                else
+                if (rst)
+                        ps <= `S0;
+                else    
                         ps <= ns;
         end
 
+        always @(ps, start, isDestination, cntReach, noDir, dIn, run) begin
+                ns = `S0;
+                case (ps)
+                        `S0: ns= start? `S1: `S0;
+                        `S1: ns= `S2;
+                        `S2: ns= isDestination? `S7: `S3;
+                        `S3: ns= ~cntReach? `S4: 
+                                noDir? `S9: `S3;
+                        `S4: ns= dIn? `S3: `S5;
+                        `S5: ns= `S6;
+                        `S6: ns= `S2;
+                        `S7: ns= run? `S8: `S7;
+                        `S8: ns= `S0;
+                        `S9: ns= `S10;
+                        `S10: ns= `S11;
+                        `S11: ns= `S2;
+                        default: ns = `S0;
+                endcase
+        end
+        
         always @(ps) begin
-                {rd, wr, fail, done, rst, move, setWall, run, regLd} = 6'b0;//////////////////////
-                dir = 2'b0;
+                {rgLd, noDir, done, move, push, pop} = 7'b0;
+                dOut = 0;
                 case(ps)
-                        `A: ;
-                        `B: ;
-                        `C: regLd = 1'b1, ;//save in register, pop from stack, set wall, remove wall
-                        `D: done = 1'b1;
-                        `E: {co, dir} = dir + 1;
-                        `F: ;
-                        `G: move = 1'b1;
-                        `H: fail = 1'b1;
-                        `I: run = 1'b1;
-                endcase 
+                        `S0: ;
+                        `S1: ;
+                        `S2: rgLd = 1'b1;
+                        `S3: {noDir, dir} = dir + 1;//clk!
+                        `S4: ;
+                        `S5:
+                        dOut = 1'b1,            //set currLoc az wall/1 in map.
+                        push = 1'b1,            //push it into stack.
+                        currLoc = nxtLoc;       //set currLoc = nxtLox
+                        `S6:
+                        pop = 1'b1;             //pop from stack
+                                                //set popedLoc az 0 in map
+                                                //set currLoc as wall/1 in map
+                                                //set currLoc = popedLoc
+                        `S7: done = 1'b1;       //queue
+                        `S8: currLoc = 8'b0, move = 1'b1;
+                endcase
         end
 endmodule
