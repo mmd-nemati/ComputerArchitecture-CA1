@@ -5,15 +5,17 @@ module mazeMemory(clk, loc, dIn, rd, wr, dOut);
         input [7:0] loc;
         output dOut;
 
+        reg [3:0] x, y;
         reg [0:15] map [0:15];
         reg dOut;
-        
+
         initial begin
                 $readmemh("map.txt", map);
         end
 
         always @(posedge clk, posedge rd) begin
                 dOut <= 1'b0;
+                {x, y} = loc;
 
                 if (rd) begin 
                         dOut <= map[x][y];
