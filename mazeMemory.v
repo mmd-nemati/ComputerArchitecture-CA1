@@ -1,14 +1,14 @@
 `timescale 1ns/1ns
 
-module mazeMemory(clk, loc, dIn, en, rd, wr, dOut);
-        input clk, dIn, en, rd, wr;
+module mazeMemory(clk, loc, dIn, rd, wr, dOut);
+        input clk, dIn, rd, wr;
         input [7:0] loc;
         output dOut;
 
         reg [0:15] map [0:15];
         reg dOut;
         
-        always @(posedge clk, posedge en) begin
+        initial begin
                 $readmemh("map.txt", map);
         end
 

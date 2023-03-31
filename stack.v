@@ -6,10 +6,11 @@ module stack(clk, rst, locIn, push, pop, locOut, empStck);
         output [7:0] locOut; 
         output empStck;
 
-        assign empStck = ~(pointer == 6'b0);
+        reg [5:0] pointer = 6'b0;
+        assign empStck = ~(pointer == 6'b0); // This should be under pointer declaration unless it gives some 
+                                             // weird compilation error about not declaring and double declaring :/
 
         reg [7:0] stackMem [0:255];
-        reg [5:0] pointer = 6'b0;
         reg locOut;
         integer i = 0;
 

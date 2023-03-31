@@ -24,6 +24,6 @@ module datapath(clk, rst, rgLd, dir, currLoc, cntReach, nxtLoc);
 
         reg4b xLoc(.clk(clk), .rst(rst), .ld(rgLd), .data(currX));
         reg4b yLoc(.clk(clk), .rst(rst), .ld(rgLd), .data(currY));
-        mux2To1 addrMux(.in0(currY), .in1(currX), .sl(sl), .ou(addTo));
+        mux2To1 addrMux(.in0(currY), .in1(currX), .sl(sl), .out(addTo));
         adder add(.a(addTo), .b(toAdd), .ci(1'b0), .co(co), .sum(res));
 endmodule
