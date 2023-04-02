@@ -22,8 +22,8 @@ module datapath(clk, rst, rgLd, dir, currLoc, cntReach, nxtLoc);
         assign nxtLoc = sl? {res, curY}: {curX, res};
         assign cntReach = (tmp == 4'b0);
 
-        reg4b xLoc(.clk(clk), .rst(rst), .ld(rgLd), .data(curX));
-        reg4b yLoc(.clk(clk), .rst(rst), .ld(rgLd), .data(curY));
+        reg4B xLoc(.clk(clk), .rst(rst), .ld(rgLd), .data(curX));
+        reg4B yLoc(.clk(clk), .rst(rst), .ld(rgLd), .data(curY));
         mux2To1 addrMux(.in0(curY), .in1(curX), .sl(sl), .out(addTo));
         adder add(.a(addTo), .b(toAdd), .ci(1'b0), .co(co), .sum(res));
 endmodule
