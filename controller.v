@@ -20,12 +20,13 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
         output [7:0] currLoc;
         output wr, rd, fail, done, move, dir, rgLd, pop, push, dOut;
 
-        reg [1:0] dir = 2'b0;
-        reg noDir;
         wire isDestination = &currLoc;
 
-
         reg [3:0] ns, ps;
+        reg [1:0] dir = 2'b0;
+        reg [7:0] currLoc;
+        reg noDir, rgLd, rd, dOut, done, move, push, pop, wr;
+
         always @(posedge clk, posedge rst) begin
                 if (rst)
                         ps <= `S0;
@@ -52,12 +53,11 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                         default: ns = `S0;
                 endcase
         end
-        
-        // reg [7:0] popedLoc;
-        reg rgLd, rd, dOut, done, move, push, currLoc, pop, wr;
+
         always @(ps) begin
                 {rgLd, noDir, rd, dOut, done, move, push, pop, wr} = 9'b0;
                 case(ps)
+                        `S0: currLoc = 8'h00;
                         `S2: rgLd = 1'b1;
                         `S3: {noDir, dir} = dir + 1;
                         `S4: rd = 1'b1;

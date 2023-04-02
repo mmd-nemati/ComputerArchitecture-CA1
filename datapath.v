@@ -10,7 +10,7 @@ module datapath(clk, rst, rgLd, dir, currLoc, cntReach, nxtLoc);
         wire [3:0] curX, curY;
         wire sl;
         wire co;
-        wire res;//updated location sum=x-if-sl==1 sum=y-if-sl==0
+        wire [3:0] res;//updated location sum=x-if-sl==1 sum=y-if-sl==0
         wire [3:0] toAdd;
         wire [3:0] addTo;
 
