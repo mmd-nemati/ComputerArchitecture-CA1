@@ -24,8 +24,8 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
         reg noDir;
         wire isDestination = &currLoc;
 
+
         reg [3:0] ns, ps;
-        // reg rgLd, noDir, dir, rd, dOut, done, move, push, currLoc, pop;
         always @(posedge clk, posedge rst) begin
                 if (rst)
                         ps <= `S0;
@@ -53,25 +53,29 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                 endcase
         end
         
-        reg rgLd, rd, dOut, done, move, push, currLoc, pop;
+        // reg [7:0] popedLoc;
+        reg rgLd, rd, dOut, done, move, push, currLoc, pop, wr;
         always @(ps) begin
-                {rgLd, noDir, rd, dOut, done, move, push, pop} = 8'b0;
+                {rgLd, noDir, rd, dOut, done, move, push, pop, wr} = 9'b0;
                 case(ps)
-                        // `S0: ;
-                        // `S1: ;
                         `S2: rgLd = 1'b1;
                         `S3: {noDir, dir} = dir + 1;
                         `S4: rd = 1'b1;
-                        `S5: begin
+                        `S6: begin
+                                wr = 1'b1;
                                 dOut = 1'b1; 
-                                push = 1'b1; 
-                                currLoc = nxtLoc; 
-                        end //set currLoc az wall/1 in map//push it into stack//set currLoc = nxtLox 
-                        `S6: pop = 1'b1;//pop from stack//set popedLoc az 0 in map//set currLoc as wall/1 in map//set currLoc = popedLoc
-                        `S7: done = 1'b1;       //queue
-                        `S8: begin 
-                                currLoc = 8'b0; 
-                                move = 1'b1; 
+                                push = 1'b1;
+                        end 
+                        `S7: currLoc = nxtLoc;
+                        `S8: begin
+                                wr = 1'b1;
+                                dOut = 1'b1;
+                        end
+                        `S9: 
+                                pop = 1'b1;
+                        `S10: begin
+                                wr = 1'b1;
+                                dOut = 1'b0;
                         end
                 endcase
         end
