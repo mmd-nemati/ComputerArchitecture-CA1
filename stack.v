@@ -11,7 +11,7 @@ module stack(clk, rst, locIn, push, pop, locOut, empStck);
                                              // weird compilation error about not declaring and double declaring :/
 
         reg [7:0] stackMem [0:255];
-        reg locOut;
+        reg [7:0] locOut;
         integer i = 0;
 
         always @(posedge clk, posedge rst) begin
