@@ -14,18 +14,18 @@
 `define S12 5'd12
 
 module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
-                 wr, rd, fail, done, move, dir, rgLd, pop, currLoc, push, dOut);
+                 wr, rd, fail, done, move, dir, rgLd, pop, curLoc, push, dOut);
         input clk, rst, start, cntReach, empStck , dIn, run;
         input [7:0] nxtLoc;
         
-        output [7:0] currLoc;
+        output [7:0] curLoc;
         output wr, rd, fail, done, move, dir, rgLd, pop, push, dOut;
 
-        wire isDestination = &currLoc;
+        wire isDestination = &curLoc;
 
         reg [3:0] ns, ps;
         reg [1:0] dir = 2'b0;
-        reg [7:0] currLoc;
+        reg [7:0] curLoc = 8'h00;
         reg noDir, rgLd, rd, dOut, done, move, push, pop, wr, fail;
 
         always @(posedge clk, posedge rst) begin
@@ -37,6 +37,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
 
         always @(ps, start, isDestination, cntReach, noDir, dIn, run) begin
                 $display("ns, ps", ns, ps);
+                $display("isDestination", isDestination);
                 case (ps)
                         `S0: ns= start? `S1: `S0;
                         `S1: ns= `S2;
@@ -58,8 +59,10 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
 
         always @(ps) begin
                 {rgLd, noDir, rd, dOut, done, move, push, pop, wr, fail} = 10'b0;
+                curLoc = 8'h00;
+                $display("curLoc", curLoc);
                 case(ps)
-                        `S0: currLoc = 8'h00;
+                        `S0: curLoc = 8'h00;
                         `S2: rgLd = 1'b1;
                         `S3: {noDir, dir} = dir + 1;
                         `S4: rd = 1'b1;
@@ -68,7 +71,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                                 dOut = 1'b1; 
                                 push = 1'b1;
                         end 
-                        `S7: currLoc = nxtLoc;
+                        `S7: curLoc = nxtLoc;
                         `S8: begin
                                 wr = 1'b1;
                                 dOut = 1'b1;

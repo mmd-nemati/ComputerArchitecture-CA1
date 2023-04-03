@@ -1,8 +1,9 @@
 `timescale 1ns/1ns
 
-module reg4B(clk, rst, ld, data);
+module reg4B(clk, rst, ld, dataIn, dataOut);
         input clk, rst, ld;
-        inout [3:0] data; // inOUT
+        input [3:0] dataIn;
+        output  [3:0] dataOut;
 
         reg [3:0] savedData;
         always @(posedge clk, posedge rst) begin 
@@ -11,9 +12,9 @@ module reg4B(clk, rst, ld, data);
                 end
 
                 else if (ld) begin 
-                        savedData <= data;
+                        savedData <= dataIn;
                 end
         end
 
-        assign data = savedData;
+        assign dataOut = savedData;
 endmodule

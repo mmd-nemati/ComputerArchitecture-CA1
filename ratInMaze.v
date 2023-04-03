@@ -11,9 +11,9 @@ module ratInMaze(clk, rst, start, run, fail, done, move);
         wire rd, wr, wriM, rdfM;
 
         controller cntrllr(.clk(clk), .rst(rst), .start(start), .cntReach(cntRch), .empStck(empStck), .dIn(rdfM), .run(run), .nxtLoc(nLoc),
-                         .wr(wr), .rd(rd), .fail(fail), .done(done), .move(move), .dir(dir), .rgLd(rgLd), .pop(pop), .currLoc(cLoc), .push(push), .dOut(wriM));
+                         .wr(wr), .rd(rd), .fail(fail), .done(done), .move(move), .dir(dir), .rgLd(rgLd), .pop(pop), .curLoc(cLoc), .push(push), .dOut(wriM));
         
-        datapath dtpth(.clk(clk), .rst(rst), .rgLd(rgLd), .dir(dir), .currLoc(cLoc),
+        datapath dtpth(.clk(clk), .rst(rst), .rgLd(rgLd), .dir(dir), .curLoc(cLoc),
                          .cntReach(cntRch), .nxtLoc(nLoc));
 
         stack stck(.clk(clk), .rst(rst), .locIn(cLoc), .push(push), .pop(pop),
