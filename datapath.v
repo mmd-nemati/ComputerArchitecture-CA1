@@ -22,7 +22,7 @@ module datapath(clk, rst, rgLd, dir, currLoc, cntReach, nxtLoc);
         assign nxtLoc = sl? {res, curY}: {curX, res};
         assign cntReach = (tmp == 4'b0);
         initial begin
-                $monitor("monitoring..currLoc, dir, nxtLoc", currLoc, dir, nxtLoc);
+                $monitor("monitoring", " currLoc:", currLoc, " dir:", dir, " nxtLoc:", nxtLoc, " rgLd:", rgLd);
         end
         reg4B xLoc(.clk(clk), .rst(rst), .ld(rgLd), .data(curX));
         reg4B yLoc(.clk(clk), .rst(rst), .ld(rgLd), .data(curY));

@@ -31,12 +31,12 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
         always @(posedge clk, posedge rst) begin
                 if (rst)
                         ps <= `S0;
-                else if (~rst)
+                else
                         ps <= ns;
         end
 
         always @(ps, start, isDestination, cntReach, noDir, dIn, run) begin
-                ns = `S0;
+                $display("ns, ps", ns, ps);
                 case (ps)
                         `S0: ns= start? `S1: `S0;
                         `S1: ns= `S2;
