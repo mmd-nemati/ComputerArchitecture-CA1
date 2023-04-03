@@ -11,6 +11,7 @@
 `define S9 5'd9
 `define S10 5'd10
 `define S11 5'd11
+`define S12 5'd12
 
 module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                  wr, rd, fail, done, move, dir, rgLd, pop, currLoc, push, dOut);
@@ -25,7 +26,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
         reg [3:0] ns, ps;
         reg [1:0] dir = 2'b0;
         reg [7:0] currLoc;
-        reg noDir, rgLd, rd, dOut, done, move, push, pop, wr;
+        reg noDir, rgLd, rd, dOut, done, move, push, pop, wr, fail;
 
         always @(posedge clk, posedge rst) begin
                 if (rst)
@@ -46,16 +47,17 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                         `S5: ns= dIn? `S3: `S6;
                         `S6: ns= `S7;
                         `S7: ns= `S2;
-                        `S8: ns= `S9; 
+                        `S8: ns= empStck? `S12: `S9;
                         `S9: ns= `S10;
                         `S10: ns= `S2;
                         `S11: ns= `S0;
+                        `S12: ns= `S0;
                         default: ns = `S0;
                 endcase
         end
 
         always @(ps) begin
-                {rgLd, noDir, rd, dOut, done, move, push, pop, wr} = 9'b0;
+                {rgLd, noDir, rd, dOut, done, move, push, pop, wr, fail} = 10'b0;
                 case(ps)
                         `S0: currLoc = 8'h00;
                         `S2: rgLd = 1'b1;
@@ -77,6 +79,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                                 wr = 1'b1;
                                 dOut = 1'b0;
                         end
+                        `S12: fail = 1'b1;
                 endcase
         end
 endmodule
