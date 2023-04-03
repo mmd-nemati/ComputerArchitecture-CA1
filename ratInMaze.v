@@ -13,7 +13,7 @@ module ratInMaze(clk, rst, start, run, fail, done, move);
         controller cntrllr(.clk(clk), .rst(rst), .start(start), .cntReach(cntRch), .empStck(empStck), .dIn(rdfM), .run(run), .nxtLoc(nLoc),
                          .wr(wr), .rd(rd), .fail(fail), .done(done), .move(move), .dir(dir), .rgLd(rgLd), .pop(pop), .curLoc(cLoc), .push(push), .dOut(wriM), .readFromStack(rFStack));
         
-        datapath dtpth(.clk(clk), .rst(rst), .rgLd(rgLd), .dir(dir), .curLoc(cLoc), .push(push), .pop(pop), .readFromStack(rFStack),
+        datapath dtpth(.clk(clk), .rst(rst), .rgLd(rgLd), .dir(dir) /*,.curLoc(cLoc)*/, .push(push), .pop(pop), .readFromStack(rFStack),
                          .cntReach(cntRch), .nxtLoc(nLoc), .empStck(empStck));
 
         mazeMemory mzmmr(.clk(clk), .loc(cLoc), .dIn(wriM), .rd(rd), .wr(wr),

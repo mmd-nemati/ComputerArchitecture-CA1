@@ -67,6 +67,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                 $display("curLoc", curLoc);
                 case(ps)
                         `S0: curLoc = 8'h00;
+                        // `S1: 
                         `S2: rgLd = 1'b1;
                         `S3: {noDir, dir} = dir + 1;
                         `S4: rd = 1'b1;
