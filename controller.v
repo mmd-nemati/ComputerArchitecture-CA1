@@ -12,21 +12,23 @@
 `define S10 5'd10
 `define S11 5'd11
 `define S12 5'd12
+`define S13 5'd13
+`define S14 5'd14
 
 module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
-                 wr, rd, fail, done, move, dir, rgLd, pop, curLoc, push, dOut);
+                 wr, rd, fail, done, move, dir, rgLd, pop, curLoc, push, dOut, readFromStack);
         input clk, rst, start, cntReach, empStck , dIn, run;
         input [7:0] nxtLoc;
         
         output [7:0] curLoc;
-        output wr, rd, fail, done, move, dir, rgLd, pop, push, dOut;
+        output wr, rd, fail, done, move, dir, rgLd, pop, push, dOut, readFromStack;
 
         wire isDestination = &curLoc;
 
         reg [3:0] ns, ps;
         reg [1:0] dir = 2'b0;
         reg [7:0] curLoc = 8'h00;
-        reg noDir, rgLd, rd, dOut, done, move, push, pop, wr, fail;
+        reg noDir, rgLd, rd, dOut, done, move, push, pop, wr, fail, readFromStack;
 
         always @(posedge clk, posedge rst) begin
                 if (rst)
@@ -42,6 +44,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                         `S0: ns= start? `S1: `S0;
                         `S1: ns= `S2;
                         `S2: ns= isDestination? `S11: `S3;
+                        `S13: ns= `S3;
                         `S3: ns= ~cntReach? `S4: 
                                 noDir? `S8: `S3;
                         `S4: ns= `S5;
@@ -49,7 +52,8 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                         `S6: ns= `S7;
                         `S7: ns= `S2;
                         `S8: ns= empStck? `S12: `S9;
-                        `S9: ns= `S10;
+                        `S9: ns= `S14;
+                        `S14: ns= `S10;
                         `S10: ns= `S2;
                         `S11: ns= `S0;
                         `S12: ns= `S0;
@@ -58,7 +62,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
         end
 
         always @(ps) begin
-                {rgLd, noDir, rd, dOut, done, move, push, pop, wr, fail} = 10'b0;
+                {rgLd, noDir, rd, dOut, done, move, push, pop, wr, fail, readFromStack} = 11'b0;
                 curLoc = 8'h00;
                 $display("curLoc", curLoc);
                 case(ps)
@@ -76,8 +80,8 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                                 wr = 1'b1;
                                 dOut = 1'b1;
                         end
-                        `S9: 
-                                pop = 1'b1;
+                        `S9: pop = 1'b1;
+                        `S14: readFromStack = 1'b1;
                         `S10: begin
                                 wr = 1'b1;
                                 dOut = 1'b0;
