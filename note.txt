@@ -1,0 +1,11 @@
+controller:
+        1- isDestination dare ba curLoc meghdar migire. Dar soorati ke curLoc ro output gozashtim va dige input nist ke injoori check beshe.
+
+        2- Yeki az moshkela ine ke 'dir' hamoon aval too S0 dare meghdar 00 mide be datapath. dar soorati ke bayad badan bede ino.
+
+        3- ezafe kardan state baad S2 to baray toggle shodan rgLd ham zaman bezare, ok nkrd va cntReach doja X mishod :/
+
+        4- soal az bing -> goft mitoone in bashe ke vaghti cntReach too datapath update mishe ba logical statement, momkene hamoon moghe 
+            too controller update nashe ya timing issue dashte bashe.
+
+        5- momkene sar rising edge nashe bara hamin xxxx mide

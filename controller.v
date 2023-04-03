@@ -1,19 +1,20 @@
 `timescale 1ns/1ns
-`define S0 5'd0
-`define S1 5'd1
-`define S2 5'd2
-`define S3 5'd3
-`define S4 5'd4
-`define S5 5'd5
-`define S6 5'd6
-`define S7 5'd7
-`define S8 5'd8
-`define S9 5'd9
-`define S10 5'd10
-`define S11 5'd11
-`define S12 5'd12
-`define S13 5'd13
-`define S14 5'd14
+`define S0 6'd0
+`define S1 6'd1
+`define S2 6'd2
+`define S3 6'd3
+`define S4 6'd4
+`define S5 6'd5
+`define S6 6'd6
+`define S7 6'd7
+`define S8 6'd8
+`define S9 6'd9
+`define S10 6'd10
+`define S11 6'd11
+`define S12 6'd12
+`define S13 6'd13
+`define S14 6'd14
+`define S15 6'd15
 
 module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                  wr, rd, fail, done, move, dir, rgLd, pop, curLoc, push, dOut, readFromStack);
@@ -38,12 +39,15 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
         end
 
         always @(ps, start, isDestination, cntReach, noDir, dIn, run) begin
-                $display("ns, ps", ns, ps);
-                $display("isDestination", isDestination);
+                $display("ns: ", ns, " ps: ", ps);
+                $display("isDestination: ", isDestination, " cntReach: ", cntReach);
                 case (ps)
                         `S0: ns= start? `S1: `S0;
                         `S1: ns= `S2;
-                        `S2: ns= isDestination? `S11: `S3;
+                        // `S2: ns= isDestination? `S11: `S3;
+                        `S2: ns= `S15;
+                        `S15: ns= isDestination? `S11: `S13; /* add a state after toggle up rgLd -> didnt work*/
+
                         `S13: ns= `S3;
                         `S3: ns= ~cntReach? `S4: 
                                 noDir? `S8: `S3;
@@ -64,7 +68,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
         always @(ps) begin
                 {rgLd, noDir, rd, dOut, done, move, push, pop, wr, fail, readFromStack} = 11'b0;
                 curLoc = 8'h00;
-                $display("curLoc", curLoc);
+                $display("inside controller curLoc: ", curLoc);
                 case(ps)
                         `S0: curLoc = 8'h00;
                         // `S1: 
