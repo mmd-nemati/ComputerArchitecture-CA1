@@ -25,10 +25,9 @@ module datapath (clk, rst, rgLd, dir, push, pop, adderEn,
         reg4B yLoc(.clk(clk), .rst(rst), .ld(rgLd), .dataIn(nxtLoc[3:0]), .dataOut(curLoc[3:0]));
 
         adder add(.a(addTo), .b(toAdd), .ci(1'b0), .en(adderEn), .co(co), .sum(res));
-        // mux2To1 addrMux(.in0(curLoc[7:4]), .in1(curLoc[3:0]), .sl(sl), .out(addTo));
         stack stck(.clk(clk), .rst(rst), .locIn(curLoc), .push(push), .pop(pop), .locOut(popedLoc), .empStck(empStck));
 
         always @(posedge clk) begin
-                $display("D| CURloc:%b NXTloc:%b dir:%b adderEn:%b sl:%b addTo:%b", curLoc, nxtLoc, dir, adderEn, sl, addTo);
+                $display("D| CURx:%d NXTx:%d NXTy:%d dir:%b", curLoc[7:4], nxtLoc[7:4], nxtLoc[3:0], dir);
         end
 endmodule

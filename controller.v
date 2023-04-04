@@ -12,11 +12,13 @@
 `define S10 6'd10
 `define S11 6'd11
 
-module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
-                 wr, rd, fail, done, move, dir, rgLd, pop, push, dOut, adderEn);
+module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc, curLoc,
+                 wr, rd, fail, done, move, dir, rgLd, pop, push, dOut, adderEn, giveTMem);
         input clk, rst, start, cntReach, empStck , dIn, run;
-        input [7:0] nxtLoc;
+        input [7:0] nxtLoc, curLoc;
+        
         output wr, rd, fail, done, move, dir, rgLd, pop, push, dOut, adderEn;
+        output reg [7:0] giveTMem;
 
         wire isDestination = &nxtLoc;
 
@@ -42,8 +44,8 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                         `S2: ns= isDestination? `S11: `S3;
                         `S3: ns= ~cntReach? `S4: 
                                 ~noDir? `S3: `S7;
-                        `S4: ns= `S5;
-                        `S5: ns= dIn? `S3: `S6;
+                        `S4: ns= dIn? `S3: `S6;
+                        // `S5: ns= dIn? `S3: `S6;
                         `S6: ns= `S1;
                         `S7: ns= empStck? `S9: `S8;
                         `S8: ns= `S1;
@@ -59,6 +61,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                 case(ps)
                         `S1: rgLd = 1'b1;
                         `S2: begin
+                                giveTMem = curLoc;
                                 wr = 1'b1;
                                 dOut = 1'b0;
                                 dir = 2'b0;
@@ -67,13 +70,22 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc,
                                 {noDir, dir} = dir + 1;
                                 adderEn = 1'b1;
                         end
-                        `S4: rd = 1'b1;
+                        `S4: begin
+                                rd = 1'b1;////////////////////////////
+                                giveTMem = nxtLoc;////////////////////
+                        end
+                        // `S5: begin
+                        //         rd = 1'b1;////////////////////////////
+                        //         giveTMem = nxtLoc;////////////////////
+                        // end
                         `S6: begin
+                                giveTMem = curLoc;
                                 wr = 1'b1;
                                 dOut = 1'b1;
                                 push = 1'b1;
                         end
                         `S7: begin
+                                giveTMem = curLoc;
                                 wr = 1'b1;
                                 dOut = 1'b1;
                         end
