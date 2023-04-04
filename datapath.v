@@ -1,39 +1,34 @@
 `timescale 1ns/1ns
 
-module datapath (clk, rst, rgLd, dir, curLoc, push, pop, cntReach, nxtLoc, empStck, readFromStack);
-        input clk, rst, rgLd, push, pop, readFromStack;
+module datapath (clk, rst, rgLd, dir, push, pop, adderEn,
+                 cntReach, empStck, nxtLoc, curLoc);
+        input clk, rst, rgLd, push, pop, adderEn;
         input [1:0] dir;
-        output [7:0] curLoc;
-// nxtLoc is tmp loc
-        output [7:0] nxtLoc;
+        output [7:0] nxtLoc, curLoc;
         output cntReach, empStck;
 
-        wire [3:0] tmpX, tmpY;
         wire sl, co;
-        wire [3:0] res, toAdd, addTo;
-        wire [3:0] tmp = addTo + dir[0];
-        wire [7:0] stackOut;
+        wire [3:0] res, toAdd, addTo, tmp;
+        wire [7:0] popedLoc;
 
-        /* Hamchenan bayad 00 dar lahze aval dade shavad. Shayad ba rst handle shavad. */
-
-        assign sl = ^dir;// sl==0:y sl==1:x
+        assign tmp = addTo + dir[0];
+        assign sl = ^dir;
         assign toAdd = dir[0]? 4'b1: -1;
-        assign nxtLoc = readFromStack? stackOut: 
-                        sl? {res, curLoc[3:0]}: {curLoc[7:4], res};
-        // assign nxtLoc = sl? {res, curLoc[3:0]}: {curLoc[7:4], res};
         assign cntReach = (tmp == 4'b0);
+        assign addTo = sl? curLoc[7:4]: curLoc[3:0];
+        assign nxtLoc = rst? 8'h00:
+                        pop? popedLoc:
+                        (adderEn && sl)? {res, curLoc[3:0]}:
+                        (adderEn && ~sl)? {curLoc[7:4], res}: nxtLoc;
+
+        reg4B xLoc(.clk(clk), .rst(rst), .ld(rgLd), .dataIn(nxtLoc[7:4]), .dataOut(curLoc[7:4]));
+        reg4B yLoc(.clk(clk), .rst(rst), .ld(rgLd), .dataIn(nxtLoc[3:0]), .dataOut(curLoc[3:0]));
+
+        adder add(.a(addTo), .b(toAdd), .ci(1'b0), .en(adderEn), .co(co), .sum(res));
+        // mux2To1 addrMux(.in0(curLoc[7:4]), .in1(curLoc[3:0]), .sl(sl), .out(addTo));
+        stack stck(.clk(clk), .rst(rst), .locIn(curLoc), .push(push), .pop(pop), .locOut(popedLoc), .empStck(empStck));
+
         always @(posedge clk) begin
-                $display("curX: ", curLoc[3:0], " currY: ", curLoc[7:4], " rgLd: ", rgLd, " sl: ", sl,
-                 " nxtLoc: ", nxtLoc, " res: %b", res, " readFromStack: ", readFromStack, " stackOut: ", stackOut,
-                " cntReach: ", cntReach, " tmp: %b", tmp, " tmpX: ", tmpX, " tmpY: ", tmpY, " dir: %b", dir);
+                $display("D| CURloc:%b NXTloc:%b dir:%b adderEn:%b sl:%b addTo:%b", curLoc, nxtLoc, dir, adderEn, sl, addTo);
         end
-        reg4B xLoc(.clk(clk), .rst(rst), .ld(rgLd), .dataIn(tmpX), .dataOut(curLoc[7:4]));
-        reg4B yLoc(.clk(clk), .rst(rst), .ld(rgLd), .dataIn(tmpY), .dataOut(curLoc[3:0]));
-
-        reg4B tmpXLoc(.clk(clk), .rst(rst), .ld(sl), .dataIn(res), .dataOut(tmpX));
-        reg4B tmpYLoc(.clk(clk), .rst(rst), .ld(~sl), .dataIn(res), .dataOut(tmpY));
-
-        mux2To1 addrMux(.in0(curLoc[3:0]), .in1(curLoc[7:4]), .sl(sl), .out(addTo));
-        adder add(.a(addTo), .b(toAdd), .ci(1'b0), .co(co), .sum(res));
-        stack stck(.clk(clk), .rst(rst), .locIn(curLoc), .push(push), .pop(pop), .locOut(stackOut), .empStck(empStck));
 endmodule

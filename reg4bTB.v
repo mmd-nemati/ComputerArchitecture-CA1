@@ -12,12 +12,18 @@ module reg4bTB();
 
         always #5 _clk <= ~_clk;
         initial begin
-                #10;
-                _ld = 1;
-                din = 4'b0001;
-                #10;
-                _ld = 0;
+                #2;
+                _rst = 1'b1;
+                #4;
+                _rst = 1'b0;
+                #9;
                 #200 $stop;
+                // #10;
+                // _ld = 1;
+                // din = 4'b0001;
+                // #10;
+                // _ld = 0;
+                // #200 $stop;
         end
 
 endmodule
