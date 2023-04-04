@@ -42,7 +42,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc, curLoc,
                         `S0: ns= start? `S1: `S0;
                         `S1: ns= `S2;
                         `S2: ns= isDestination? `S11: `S3;
-                        `S3: ns= ~cntReach? `S4: 
+                        `S3: ns= ~cntReach? (noDir? `S4: `S7): 
                                 ~noDir? `S3: `S7;
                         `S4: ns= dIn? `S3: `S6;
                         // `S5: ns= dIn? `S3: `S6;

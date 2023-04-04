@@ -7,7 +7,7 @@ module stack(clk, rst, locIn, push, pop, locOut, empStck);
         output empStck;
 
         reg [5:0] pointer = 6'b0;
-        assign empStck = ~(pointer == 6'b0); // This should be under pointer declaration unless it gives some 
+        assign empStck = (pointer == 6'b0); // This should be under pointer declaration unless it gives some 
                                              // weird compilation error about not declaring and double declaring :/
 
         reg [7:0] stackMem [0:255];
@@ -30,5 +30,6 @@ module stack(clk, rst, locIn, push, pop, locOut, empStck);
                         locOut = stackMem[pointer];
                         pointer = pointer - 1;    
                 end
+                $display("pointer: %d, empStack: %b stackX: %d stackY: %d", pointer, empStck, locOut[7:4], locOut[3:0]);
         end
 endmodule

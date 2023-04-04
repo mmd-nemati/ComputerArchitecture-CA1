@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-module adder(a, b, ci, en,, co, sum);
+module adder(a, b, ci, en, co, sum);
         input [3:0] a, b;
         input ci, en;
         output co;
