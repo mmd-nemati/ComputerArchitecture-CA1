@@ -11,8 +11,7 @@ module stack(clk, rst, locIn, push, pop, done, locOut, empStck); // Done should 
         reg [5:0] headPointer = 6'b0;
         reg [5:0] mainPointer = 6'b0;
         reg pPopType = `STACK; 
-        assign empStck = (pPopType == `STACK)? (headPointer == 6'b0): (mainPointer == headPointer); // This should be under headPointer declaration unless it gives some 
-                                             // weird compilation error about not declaring and double declaring :/
+        assign empStck = (pPopType == `STACK)? (headPointer == 6'b0): (mainPointer == headPointer);
 
         reg [7:0] stackMem [0:255];
         reg [7:0] locOut;
