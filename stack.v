@@ -6,13 +6,17 @@ module stack(clk, rst, locIn, push, pop, locOut, empStck);
         output [7:0] locOut; 
         output empStck;
 
-        reg [5:0] pointer = 6'b0;
+        reg [5:0] pointer = 6'b1;
         assign empStck = (pointer == 6'b0); // This should be under pointer declaration unless it gives some 
                                              // weird compilation error about not declaring and double declaring :/
 
         reg [7:0] stackMem [0:255];
         reg [7:0] locOut;
         integer i = 0;
+
+        // always @(posedge clk) begin
+                // $display("S| toPop %d   %d:", stackMem[pointer-1][7:4], stackMem[pointer-1][3:0]);
+        // end
 
         always @(posedge clk, posedge rst) begin
                 if (rst) begin
@@ -22,14 +26,13 @@ module stack(clk, rst, locIn, push, pop, locOut, empStck);
                 end
 
                 else if (push) begin
-                        pointer = pointer + 1;
                         stackMem[pointer] = locIn;
+                        pointer = pointer + 1;
                 end
 
                 else if (pop && pointer > 0) begin
+                        pointer = pointer - 1;
                         locOut = stackMem[pointer];
-                        pointer = pointer - 1;    
                 end
-                $display("pointer: %d, empStack: %b stackX: %d stackY: %d", pointer, empStck, locOut[7:4], locOut[3:0]);
         end
 endmodule

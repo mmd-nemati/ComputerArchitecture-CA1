@@ -14,7 +14,8 @@ module mazeMemory(clk, loc, dIn, rd, wr, dOut);
         end
 
         always @(posedge clk) begin
-                $display("M| X:%d Y:%d d:%d", loc[7:4], loc[3:0], dOut, "    map:", map[x][y]);
+                $display("M| X:%d Y:%d d:%d", loc[7:4], loc[3:0], dOut, " map:", map[x][y]);
+                // $display("M| X:%d Y:%d d:%d", loc[7:4], loc[3:0], dOut, " map:", map[x][y], " dIn:%d", dIn, " wr:%d", wr);
         end
 
         always @(posedge clk, posedge rd) begin

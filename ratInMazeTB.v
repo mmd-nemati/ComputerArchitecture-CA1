@@ -18,6 +18,6 @@ module ratInMazeTB();
                 _start = 1'b1;
                 #12;
                 _start = 1'b0;
-                #2500 $stop;
+                #5000 $stop;
         end
 endmodule

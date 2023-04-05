@@ -28,6 +28,8 @@ module datapath (clk, rst, rgLd, dir, push, pop, adderEn,
         stack stck(.clk(clk), .rst(rst), .locIn(curLoc), .push(push), .pop(pop), .locOut(popedLoc), .empStck(empStck));
 
         always @(posedge clk) begin
-                $display("Datapath| x:%d y:%d nX:%d ny:%d dir:%b", curLoc[7:4], curLoc[3:0], nxtLoc[7:4], nxtLoc[3:0], dir);
+                $display("DP.| x:%d y:%d nX:%d ny:%d pop:%d dir:%b", curLoc[7:4], curLoc[3:0], nxtLoc[7:4], nxtLoc[3:0], pop, dir);
+                // $display("DP.| x:%d y:%d nX:%d ny:%d pop:%d dir:%b", curLoc[7:4], curLoc[3:0], nxtLoc[7:4], nxtLoc[3:0], pop, dir);
+                // $display("DP.| x:%d y:%d", curLoc[7:4], curLoc[3:0]);
         end
 endmodule
