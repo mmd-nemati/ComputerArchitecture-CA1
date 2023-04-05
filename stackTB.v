@@ -36,14 +36,14 @@ module stackTB();
                 #6;
                 _push = 1'b0;
                 #6;
-                _locIn = 8'ha9;
+                _locIn = 8'ha3;
                 #2;
                 _push = 1'b1;
                 #6;
                 _push = 1'b0;
                 #25;
                 _done = 1'b1;
-                #6;
+                #2;
                 _done = 1'b0;
                 _pop = 1'b1;
                 

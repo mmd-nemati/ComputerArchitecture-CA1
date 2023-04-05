@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
-`define STACK 6'b111111
-`define QUEUE 6'b000001
+`define STACK 1'b0
+`define QUEUE 1'b1
 
 module stack(clk, rst, locIn, push, pop, done, locOut, empStck); // Done should be only issued in one clock
         input clk, rst, push, pop, done;
@@ -19,7 +19,7 @@ module stack(clk, rst, locIn, push, pop, done, locOut, empStck); // Done should 
 
         always @(posedge clk, posedge rst) begin
                 if (done) begin 
-                        pPopType = 6'b000001;
+                        pPopType = `QUEUE;
                         mainPointer = 6'b0;
                         $display("Reached here, pPopType: %b %d", pPopType, pPopType);
                 end
@@ -38,9 +38,15 @@ module stack(clk, rst, locIn, push, pop, done, locOut, empStck); // Done should 
                                 stackMem[mainPointer] = locIn;
                         end
 
-                        else if (pop && headPointer > 0) begin
+                        else if (pop && headPointer > 0 && pPopType == `QUEUE) begin
                                 locOut = stackMem[mainPointer];
-                                headPointer = headPointer + pPopType;    
+                                // headPointer = headPointer + 1;    
+                                mainPointer = mainPointer + 1;
+                        end
+
+                        else if (pop && headPointer > 0 && pPopType == `STACK) begin 
+                                locOut = stackMem[mainPointer];
+                                headPointer = headPointer - 1;    
                                 mainPointer = headPointer;
                         end
                 end
