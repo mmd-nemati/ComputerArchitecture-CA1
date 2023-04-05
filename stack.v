@@ -14,10 +14,6 @@ module stack(clk, rst, locIn, push, pop, locOut, empStck);
         reg [7:0] locOut;
         integer i = 0;
 
-        // always @(posedge clk) begin
-                // $display("S| toPop %d   %d:", stackMem[pointer-1][7:4], stackMem[pointer-1][3:0]);
-        // end
-
         always @(posedge clk, posedge rst) begin
                 if (rst) begin
                         for (i = 0; i < 256; i = i + 1)
