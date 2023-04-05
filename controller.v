@@ -29,7 +29,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc, curLoc,
 
         always @(posedge clk) begin
                 // $monitor("C| ps:", ps, " ns", ns, " dIn:", dIn);
-                $monitor("C| ps:", ps, " ns:", ns, " dir:%b", dir);
+                $monitor("C| ps:", ps, " ns:", ns, " dir:%b", dir, " nL:%d  %d", nxtLoc[7:4], nxtLoc[3:0]);
         end
 
         always @(posedge clk, posedge rst) begin
@@ -80,6 +80,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc, curLoc,
                                 // rd = 1'b1;
                                 {noDir, dir} = dir + 1;
                                 adderEn = 1'b1;
+                                giveTMem = nxtLoc;
                         end
                         `S4: begin
                                 rd = 1'b1;
