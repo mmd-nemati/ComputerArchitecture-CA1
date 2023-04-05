@@ -12,6 +12,7 @@
 `define S10 6'd10
 `define S11 6'd11
 `define S1_ 6'd12
+`define S12 6'd13
 
 module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc, curLoc,
                  wr, rd, fail, done, move, dir, rgLd, pop, push, dOut, adderEn, giveTMem);
@@ -28,8 +29,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc, curLoc,
         reg rgLd, wr, dOut, noDir, rd, push, pop, fail, done, adderEn, move;
 
         always @(posedge clk) begin
-                // $monitor("C| ps:", ps, " ns", ns, " dIn:", dIn);
-                $monitor("C| ps:", ps, " ns:", ns, " dir:%b", dir, " nL:%d  %d", nxtLoc[7:4], nxtLoc[3:0]);
+                $monitor("C| ps:", ps, " ns:", ns, " dir:%b", dir, " nL:%d  %d", nxtLoc[7:4], nxtLoc[3:0], " noDir:%d", noDir);
         end
 
         always @(posedge clk, posedge rst) begin
@@ -45,39 +45,36 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc, curLoc,
                         `S1: ns= `S1_;
                         `S1_: ns= `S2;
                         `S2: ns= isDestination? `S11: `S5;
-                        `S5: ns= cntReach? `S3: `S4;
-                        `S3: ns= noDir? `S7:
-                                cntReach? `S3: `S4;
-                        `S4: ns= (dIn && ~noDir)? `S3:
-                                (dIn && noDir)? `S7: `S6;
+                        `S5: ns= cntReach? `S3: `S4;       
+                        `S3: ns= noDir? `S7: `S12;
+                        `S12: ns= cntReach? `S3: `S4;
+                        `S4: ns= dIn? `S3: 
+                                ~dIn? `S6: `S7;
                         `S6: ns= `S1;
                         `S7: ns= empStck? `S9: `S8;
                         `S8: ns= `S1;
                         `S9: ns= `S10;
                         `S10: ns= `S0;
-                        // `S11: ns= 
+                        `S11: ns= `S0;
                         default: ns = `S0;
                 endcase
         end
 
         always @(ps) begin
-                {rgLd, wr, dOut, noDir, rd, push, pop, fail, done, adderEn, move} = 11'b0;
+                {rgLd, wr, dOut, rd, push, pop, fail, done, adderEn, move} = 10'b0;
                 case(ps)
                         `S1: rgLd = 1'b1;
                         `S2: begin
                                 giveTMem = curLoc;
                                 wr = 1'b1;
                                 dOut = 1'b0;
-                                // dir = 2'b00;////////////////////
-                                // adderEn = 1'b1;
                         end
                         `S5: begin
-                                // rd = 1'b1;
+                                noDir = 1'b0;
                                 dir = 2'b00;
                                 adderEn = 1'b1;
                         end
                         `S3: begin
-                                // rd = 1'b1;
                                 {noDir, dir} = dir + 1;
                                 adderEn = 1'b1;
                                 giveTMem = nxtLoc;
