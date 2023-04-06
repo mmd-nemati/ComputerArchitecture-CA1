@@ -1,2 +1,0 @@
-controller:
-        beyn state 3 o 4 loop miofte

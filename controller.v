@@ -14,20 +14,21 @@
 `define S1_ 6'd12
 `define S12 6'd13
 `define S14 6'd14
+`define S15 6'd15
 
 module controller(clk, rst, start, cntReach, empStck, dIn, nxtLoc, curLoc,
-                 wr, rd, fail, done, move, dir, rgLd, pop, push, dOut, adderEn, giveTMem);
+                 wr, rd, fail, done, dir, rgLd, pop, push, dOut, adderEn, giveTMem);
         input clk, rst, start, cntReach, empStck , dIn;
         input [7:0] nxtLoc, curLoc;
         
-        output wr, rd, fail, done, move, dir, rgLd, pop, push, dOut, adderEn;
+        output wr, rd, fail, done, dir, rgLd, pop, push, dOut, adderEn;
         output reg [7:0] giveTMem;
 
         wire isDestination = &nxtLoc;
 
         reg [3:0] ns, ps;
         reg [1:0] dir = 2'b0;
-        reg rgLd, wr, dOut, noDir, rd, push, pop, fail, done, adderEn, move;
+        reg rgLd, wr, dOut, noDir, rd, push, pop, fail, done, adderEn;
 
         always @(posedge clk) begin
                 $monitor("C| ps:", ps, " ns:", ns, " dir:%b", dir, " nL:%d  %d", nxtLoc[7:4], nxtLoc[3:0], " noDir:%d", noDir, " empStck: %b", empStck, " pop: %b", pop);
@@ -56,14 +57,15 @@ module controller(clk, rst, start, cntReach, empStck, dIn, nxtLoc, curLoc,
                         `S8: ns= `S1;
                         `S9: ns= `S10;
                         `S10: ns= `S0;
-                        `S11: ns= `S14;
+                        `S11: ns= `S15;
+                        `S15: ns= `S14;
                         `S14: ns= empStck? `S0: `S14;
                         default: ns = `S0;
                 endcase
         end
 
         always @(ps) begin
-                {rgLd, wr, dOut, rd, push, pop, fail, done, adderEn, move} = 10'b0;
+                {rgLd, wr, dOut, rd, push, pop, fail, done, adderEn} = 10'b0;
                 case(ps)
                         `S1: rgLd = 1'b1;
                         `S2: begin
@@ -98,11 +100,8 @@ module controller(clk, rst, start, cntReach, empStck, dIn, nxtLoc, curLoc,
                         end
                         `S8: pop = 1'b1;
                         `S9: fail = 1'b1;
-                        `S11: begin 
-                                done = 1'b1;
-                                // giveTMem = curLoc;
-                                push = 1'b1;     
-                        end
+                        `S11: push = 1'b1;
+                        `S15: done = 1'b1;
                         `S14: pop = 1'b1;
                 endcase
         end

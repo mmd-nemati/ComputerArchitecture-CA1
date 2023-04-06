@@ -5,7 +5,8 @@ module ratInMazeTB();
         reg _rst = 1'b0;
         reg _start = 1'b0;
         reg _run = 1'b0;
-        wire _fail, _done, _move;
+        wire _fail, _done;
+        wire [7:0] _move;
 
         ratInMaze rtInMz (.clk(_clk), .rst(_rst), .start(_start), .run(_run), .fail(_fail), .done(_done), .move(_move));
 

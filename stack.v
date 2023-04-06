@@ -2,10 +2,11 @@
 `define STACK 1'b0
 `define QUEUE 1'b1
 
-module stack(clk, rst, locIn, push, pop, done, run, locOut, empStck); // Done should be only issued in one clock
+module stack(clk, rst, locIn, push, pop, done, run, locOut, move, empStck);
         input clk, rst, push, pop, done, run;
         input [7:0] locIn;
-        output [7:0] locOut; 
+        output [7:0] locOut;
+        output reg [7:0] move; 
         output empStck;
 
         reg [7:0] headPointer = 8'b0;
@@ -31,6 +32,7 @@ module stack(clk, rst, locIn, push, pop, done, run, locOut, empStck); // Done sh
                                         stackMem[i] <= 8'h00;
                                 headPointer = 8'b0;
                                 mainPointer = 8'b0;
+                                pPopType = `STACK;
                         end
 
                         else if (push) begin
@@ -41,8 +43,8 @@ module stack(clk, rst, locIn, push, pop, done, run, locOut, empStck); // Done sh
 
                         else if (pop && headPointer > 0 && pPopType == `QUEUE && run) begin
                                 locOut = stackMem[mainPointer];
-                                // headPointer = headPointer + 1;    
                                 mainPointer = mainPointer + 1;
+                                move = locOut;
                                 $display("run: %b, poped: %b", run, locOut);
                         end
 
