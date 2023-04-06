@@ -8,10 +8,10 @@ module ratInMaze(clk, rst, start, run, fail, done, move);
         wire [1:0] dir;
         wire pop, push, empStck, rgLd, cntRch, rd, wr, wriM, rdfM, addEn;
 
-        controller cntrllr(.clk(clk), .rst(rst), .start(start), .cntReach(cntRch), .empStck(empStck), .dIn(rdfM), .run(run), .nxtLoc(nLoc), .curLoc(cLoc),
+        controller cntrllr(.clk(clk), .rst(rst), .start(start), .cntReach(cntRch), .empStck(empStck), .dIn(rdfM), .nxtLoc(nLoc), .curLoc(cLoc),
                          .wr(wr), .rd(rd), .fail(fail), .done(done), .move(move), .dir(dir), .rgLd(rgLd), .pop(pop), .push(push), .dOut(wriM), .adderEn(addEn), .giveTMem(gTMem));
         
-        datapath dtpth(.clk(clk), .rst(rst), .rgLd(rgLd), .dir(dir), .push(push), .pop(pop), .adderEn(addEn),
+        datapath dtpth(.clk(clk), .rst(rst), .rgLd(rgLd), .dir(dir), .push(push), .pop(pop), .done(done), .run(run), .adderEn(addEn),
                          .cntReach(cntRch), .empStck(empStck), .nxtLoc(nLoc), .curLoc(cLoc));
 
         mazeMemory mzmmr(.clk(clk), .loc(gTMem), .dIn(wriM), .rd(rd), .wr(wr),

@@ -1,8 +1,8 @@
 `timescale 1ns/1ns
 
-module datapath (clk, rst, rgLd, dir, push, pop, adderEn,
+module datapath (clk, rst, rgLd, dir, push, pop, done, run, adderEn,
                  cntReach, empStck, nxtLoc, curLoc);
-        input clk, rst, rgLd, push, pop, adderEn;
+        input clk, rst, rgLd, push, pop, done, run, adderEn;
         input [1:0] dir;
         output [7:0] nxtLoc, curLoc;
         output cntReach, empStck;
@@ -25,7 +25,7 @@ module datapath (clk, rst, rgLd, dir, push, pop, adderEn,
         reg4B yLoc(.clk(clk), .rst(rst), .ld(rgLd), .dataIn(nxtLoc[3:0]), .dataOut(curLoc[3:0]));
 
         adder add(.a(addTo), .b(toAdd), .ci(1'b0), .en(adderEn), .co(co), .sum(res));
-        stack stck(.clk(clk), .rst(rst), .locIn(curLoc), .push(push), .pop(pop), .locOut(popedLoc), .empStck(empStck));
+        stack stck(.clk(clk), .rst(rst), .locIn(curLoc), .push(push), .pop(pop), .done(done), .run(run), .locOut(popedLoc), .empStck(empStck));
 
         always @(posedge clk) begin
                 $display("DP.| cX:%d cY:%d nX:%d nY:%d dir:%b cntReach:%d adderEn:%d", curLoc[7:4], curLoc[3:0], nxtLoc[7:4], nxtLoc[3:0], dir, cntReach, adderEn);

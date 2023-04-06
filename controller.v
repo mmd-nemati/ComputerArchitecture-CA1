@@ -13,10 +13,11 @@
 `define S11 6'd11
 `define S1_ 6'd12
 `define S12 6'd13
+`define S14 6'd14
 
-module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc, curLoc,
+module controller(clk, rst, start, cntReach, empStck, dIn, nxtLoc, curLoc,
                  wr, rd, fail, done, move, dir, rgLd, pop, push, dOut, adderEn, giveTMem);
-        input clk, rst, start, cntReach, empStck , dIn, run;
+        input clk, rst, start, cntReach, empStck , dIn;
         input [7:0] nxtLoc, curLoc;
         
         output wr, rd, fail, done, move, dir, rgLd, pop, push, dOut, adderEn;
@@ -29,7 +30,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc, curLoc,
         reg rgLd, wr, dOut, noDir, rd, push, pop, fail, done, adderEn, move;
 
         always @(posedge clk) begin
-                $monitor("C| ps:", ps, " ns:", ns, " dir:%b", dir, " nL:%d  %d", nxtLoc[7:4], nxtLoc[3:0], " noDir:%d", noDir);
+                $monitor("C| ps:", ps, " ns:", ns, " dir:%b", dir, " nL:%d  %d", nxtLoc[7:4], nxtLoc[3:0], " noDir:%d", noDir, " empStck: %b", empStck, " pop: %b", pop);
         end
 
         always @(posedge clk, posedge rst) begin
@@ -39,7 +40,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc, curLoc,
                         ps <= ns;
         end
 
-        always @(ps, start, isDestination, cntReach, noDir, dIn, run) begin
+        always @(ps, start, isDestination, cntReach, noDir, dIn, empStck) begin
                 case (ps)
                         `S0: ns= start? `S1: `S0;
                         `S1: ns= `S1_;
@@ -55,7 +56,8 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc, curLoc,
                         `S8: ns= `S1;
                         `S9: ns= `S10;
                         `S10: ns= `S0;
-                        `S11: ns= `S0;
+                        `S11: ns= `S14;
+                        `S14: ns= empStck? `S0: `S14;
                         default: ns = `S0;
                 endcase
         end
@@ -96,7 +98,12 @@ module controller(clk, rst, start, cntReach, empStck, dIn, run, nxtLoc, curLoc,
                         end
                         `S8: pop = 1'b1;
                         `S9: fail = 1'b1;
-                        `S11: done = 1'b1;
+                        `S11: begin 
+                                done = 1'b1;
+                                // giveTMem = curLoc;
+                                push = 1'b1;     
+                        end
+                        `S14: pop = 1'b1;
                 endcase
         end
 endmodule
