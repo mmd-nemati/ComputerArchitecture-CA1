@@ -9,17 +9,23 @@ module datapath (clk, rst, rgLd, dir, push, pop, done, run, adderEn,
 
         wire sl, co;
         wire [3:0] res, toAdd, addTo, tmp;
-        wire [7:0] popedLoc;
+        wire [7:0] popedLoc, mux1Out, mux2Out, mux3Out, inMux1, inMux2;
+        wire muxSl1, muxSl2;
 
         assign tmp = addTo + dir[0];
         assign sl = ^dir;
         assign toAdd = dir[0]? 4'b1: -1;
         assign cntReach = (tmp == 4'b0);
         assign addTo = sl? curLoc[7:4]: curLoc[3:0];
-        assign nxtLoc = rst? 8'h00:
-                        pop? popedLoc:
-                        (adderEn && sl)? {res, curLoc[3:0]}:
-                        (adderEn && ~sl)? {curLoc[7:4], res}: nxtLoc;
+        assign muxSl1 = adderEn && ~sl;
+        assign muxSl2 = adderEn && sl;
+        assign inMux1 = {curLoc[7:4], res};
+        assign inMux2 = {res, curLoc[3:0]};
+        
+        mux2To1 mux1(.in0(nxtLoc), .in1(inMux1), .sl(muxSl1), .out(mux1Out));
+        mux2To1 mux2(.in0(mux1Out), .in1(inMux2), .sl(muxSl2), .out(mux2Out));
+        mux2To1 mux3(.in0(mux2Out), .in1(popedLoc), .sl(pop), .out(mux3Out));
+        mux2To1 mux4(.in0(mux3Out), .in1(8'h00), .sl(rst), .out(nxtLoc));
 
         reg4B xLoc(.clk(clk), .rst(rst), .ld(rgLd), .dataIn(nxtLoc[7:4]), .dataOut(curLoc[7:4]));
         reg4B yLoc(.clk(clk), .rst(rst), .ld(rgLd), .dataIn(nxtLoc[3:0]), .dataOut(curLoc[3:0]));
