@@ -11,10 +11,10 @@
 `define S9 6'd9
 `define S10 6'd10
 `define S11 6'd11
-`define S1_ 6'd12
-`define S12 6'd13
+`define S12 6'd12
+`define S13 6'd13
 `define S14 6'd14
-`define S15 6'd15
+`define S15 6'd15 
 
 module controller(clk, rst, start, cntReach, empStck, dIn, nxtLoc, curLoc,
                  wr, rd, fail, done, dir, rgLd, pop, push, dOut, adderEn, giveTMem);
@@ -30,10 +30,6 @@ module controller(clk, rst, start, cntReach, empStck, dIn, nxtLoc, curLoc,
         reg [1:0] dir = 2'b0;
         reg rgLd, wr, dOut, noDir, rd, push, pop, fail, done, adderEn;
 
-        always @(posedge clk) begin
-                $monitor("C| ps:", ps, " ns:", ns, " dir:%b", dir, " nL:%d  %d", nxtLoc[7:4], nxtLoc[3:0], " noDir:%d", noDir, " empStck: %b", empStck, " pop: %b", pop);
-        end
-
         always @(posedge clk, posedge rst) begin
                 if (rst)
                         ps <= `S0;
@@ -44,22 +40,22 @@ module controller(clk, rst, start, cntReach, empStck, dIn, nxtLoc, curLoc,
         always @(ps, start, isDestination, cntReach, noDir, dIn, empStck) begin
                 case (ps)
                         `S0: ns= start? `S1: `S0;
-                        `S1: ns= `S1_;
-                        `S1_: ns= `S2;
-                        `S2: ns= isDestination? `S11: `S5;
-                        `S5: ns= cntReach? `S3: `S4;       
-                        `S3: ns= noDir? `S7: `S12;
-                        `S12: ns= cntReach? `S3: `S4;
-                        `S4: ns= dIn? `S3: 
-                                ~dIn? `S6: `S7;
-                        `S6: ns= `S1;
-                        `S7: ns= empStck? `S9: `S8;
-                        `S8: ns= `S1;
-                        `S9: ns= `S10;
-                        `S10: ns= `S0;
-                        `S11: ns= `S15;
-                        `S15: ns= `S14;
+                        `S1: ns= `S2;
+                        `S2: ns= `S3;
+                        `S3: ns= isDestination? `S12: `S6;
+                        `S4: ns= noDir? `S8: `S13;
+                        `S5: ns= dIn? `S4: 
+                                ~dIn? `S7: `S8;
+                        `S6: ns= cntReach? `S4: `S5;       
+                        `S7: ns= `S1;
+                        `S8: ns= empStck? `S10: `S9;
+                        `S9: ns= `S1;
+                        `S10: ns= `S11;
+                        `S11: ns= `S0;
+                        `S12: ns= `S15;
+                        `S13: ns= cntReach? `S4: `S5;
                         `S14: ns= empStck? `S0: `S14;
+                        `S15: ns= `S14;
                         default: ns = `S0;
                 endcase
         end
@@ -68,41 +64,41 @@ module controller(clk, rst, start, cntReach, empStck, dIn, nxtLoc, curLoc,
                 {rgLd, wr, dOut, rd, push, pop, fail, done, adderEn} = 10'b0;
                 case(ps)
                         `S1: rgLd = 1'b1;
-                        `S2: begin
+                        `S3: begin
                                 giveTMem = curLoc;
                                 wr = 1'b1;
                                 dOut = 1'b0;
                         end
-                        `S5: begin
-                                noDir = 1'b0;
-                                dir = 2'b00;
-                                adderEn = 1'b1;
-                        end
-                        `S3: begin
+                        `S4: begin
                                 {noDir, dir} = dir + 1;
                                 adderEn = 1'b1;
                                 giveTMem = nxtLoc;
                         end
-                        `S4: begin
+                        `S5: begin
                                 rd = 1'b1;
                                 giveTMem = nxtLoc;
                         end
                         `S6: begin
-                                giveTMem = curLoc;
-                                wr = 1'b1;
-                                dOut = 1'b1;
-                                push = 1'b1;
+                                noDir = 1'b0;
+                                dir = 2'b00;
+                                adderEn = 1'b1;
                         end
                         `S7: begin
                                 giveTMem = curLoc;
                                 wr = 1'b1;
                                 dOut = 1'b1;
+                                push = 1'b1;
                         end
-                        `S8: pop = 1'b1;
-                        `S9: fail = 1'b1;
-                        `S11: push = 1'b1;
+                        `S8: begin
+                                giveTMem = curLoc;
+                                wr = 1'b1;
+                                dOut = 1'b1;
+                        end
+                        `S9: pop = 1'b1;
+                        `S10: fail = 1'b1;
+                        `S12: push = 1'b1;
+                        `S14: pop = 1'b1;   
                         `S15: done = 1'b1;
-                        `S14: pop = 1'b1;
                 endcase
         end
 endmodule
