@@ -33,7 +33,7 @@ module datapath (clk, rst, rgLd, dir, push, pop, done, run, adderEn,
         adder add(.a(addTo), .b(toAdd), .ci(1'b0), .en(adderEn), .co(co), .sum(res));
         stack stck(.clk(clk), .rst(rst), .locIn(curLoc), .push(push), .pop(pop), .done(done), .run(run), .locOut(popedLoc), .move(move), .empStck(empStck));
 
-        always @(posedge clk) begin
-                $display("DP.| cX:%d cY:%d nX:%d nY:%d dir:%b cntReach:%d adderEn:%d", curLoc[7:4], curLoc[3:0], nxtLoc[7:4], nxtLoc[3:0], dir, cntReach, adderEn);
+        always @(curLoc) begin
+                $display("Mouse Location --> X:%d   Y:%d", curLoc[7:4], curLoc[3:0]);
         end
 endmodule

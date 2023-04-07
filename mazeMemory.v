@@ -13,15 +13,9 @@ module mazeMemory(clk, loc, dIn, rd, wr, dOut);
                 $readmemh("map.txt", map);
         end
 
-        always @(posedge clk) begin
-                $display("M| X:%d Y:%d d:%d", loc[7:4], loc[3:0], dOut, " map:", map[x][y]);
-                // $display("M| X:%d Y:%d d:%d", loc[7:4], loc[3:0], dOut, " map:", map[x][y], " dIn:%d", dIn, " wr:%d", wr);
-        end
-
         always @(posedge clk, posedge rd) begin
                 dOut <= 1'b0;
                 {y, x} = loc;
-                // {x, y} = loc;
 
                 if (rd) begin 
                         dOut <= map[x][y];

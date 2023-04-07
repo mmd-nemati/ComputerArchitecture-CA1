@@ -19,20 +19,19 @@ module stack(clk, rst, locIn, push, pop, done, run, locOut, move, empStck);
         integer i = 0;
 
         always @(posedge clk, posedge rst) begin
-                $display("run: %b, done: %b, pPopType: %d, push: %b, pop: %b, headPointer: %d, mainPointer: %d, stackX: %d, stackY: %d, stackMem[mainPointer]: %b, empStck: %b",run, done, pPopType, push, pop, headPointer, mainPointer, locOut[7:4], locOut[3:0], stackMem[mainPointer], empStck);
                 if (done) begin 
                         pPopType = `QUEUE;
-                        mainPointer = 8'b0;
-                        $display("Reached here, pPopType: %b %d", pPopType, pPopType);
+                        mainPointer = 8'b1;
+                        $display("--Done signal activated--");
                 end
 
                 else begin 
                         if (rst) begin
-                                for (i = 0; i < 256; i = i + 1)
-                                        stackMem[i] <= 8'h00;
                                 headPointer = 8'b0;
                                 mainPointer = 8'b0;
                                 pPopType = `STACK;
+                                for (i = 0; i < 256; i = i + 1)
+                                        stackMem[i] <= 8'h00;
                         end
 
                         else if (push) begin
@@ -45,7 +44,7 @@ module stack(clk, rst, locIn, push, pop, done, run, locOut, move, empStck);
                                 locOut = stackMem[mainPointer];
                                 mainPointer = mainPointer + 1;
                                 move = locOut;
-                                $display("run: %b, poped: %b", run, locOut);
+                                $display("Way --> X:%d   Y:%d", locOut[7:4], locOut[3:0]);
                         end
 
                         else if (pop && headPointer > 0 && pPopType == `STACK) begin 
