@@ -44,7 +44,7 @@ module stckQue(clk, rst, locIn, push, pop, done, run, locOut, move, empStck);
                                 locOut = stackMem[mainPointer];
                                 mainPointer = mainPointer + 1;
                                 move = locOut;
-                                $display("Way --> X:%d   Y:%d", locOut[7:4], locOut[3:0]);
+                                $display("Path --> X:%d   Y:%d", locOut[7:4], locOut[3:0]);
                         end
 
                         else if (pop && headPointer > 0 && pPopType == `STACK) begin 

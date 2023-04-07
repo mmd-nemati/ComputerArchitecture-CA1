@@ -44,8 +44,7 @@ module controller(clk, rst, start, cntReach, empStck, dIn, nxtLoc, curLoc,
                         `S2: ns= `S3;
                         `S3: ns= isDestination? `S12: `S6;
                         `S4: ns= noDir? `S8: `S13;
-                        `S5: ns= dIn? `S4: 
-                                ~dIn? `S7: `S8;
+                        `S5: ns= dIn? `S4: `S7;
                         `S6: ns= cntReach? `S4: `S5;       
                         `S7: ns= `S1;
                         `S8: ns= empStck? `S10: `S9;

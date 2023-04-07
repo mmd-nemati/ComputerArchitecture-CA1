@@ -7,14 +7,14 @@ module datapath(clk, rst, rgLd, dir, push, pop, done, run, adderEn,
         output [7:0] nxtLoc, curLoc, move;
         output cntReach, empStck;
 
-        wire sl, co;
-        wire [3:0] res, toAdd, addTo, tmp;
+        wire sl, co, muxSl1, muxSl2;
+        wire [3:0] res, toAdd, addTo, tmp, negOne;
         wire [7:0] popedLoc, mux1Out, mux2Out, mux3Out, inMux1, inMux2;
-        wire muxSl1, muxSl2;
 
+        
         assign tmp = addTo + dir[0];
         assign sl = ^dir;
-        assign toAdd = dir[0]? 4'b1: -1;
+        assign toAdd = dir[0]? 4'b1: negOne;
         assign cntReach = (tmp == 4'b0);
         assign addTo = sl? curLoc[7:4]: curLoc[3:0];
         assign muxSl1 = adderEn && ~sl;
@@ -22,6 +22,7 @@ module datapath(clk, rst, rgLd, dir, push, pop, done, run, adderEn,
         assign inMux1 = {curLoc[7:4], res};
         assign inMux2 = {res, curLoc[3:0]};
         
+        twosComplement neg1(.in(4'b1), .out(negOne));
         mux2To1 mux1(.in0(nxtLoc), .in1(inMux1), .sl(muxSl1), .out(mux1Out));
         mux2To1 mux2(.in0(mux1Out), .in1(inMux2), .sl(muxSl2), .out(mux2Out));
         mux2To1 mux3(.in0(mux2Out), .in1(popedLoc), .sl(pop), .out(mux3Out));
