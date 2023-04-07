@@ -11,7 +11,7 @@ module stackTB();
         wire _empStck;
 // module stack(clk, rst, locIn, push, pop, done, locOut, empStck); // Done should be only issued in one clock
         
-        stack CUT2(.clk(_clk), .locIn(_locIn), .rst(_rst), .push(_push), .pop(_pop), .done(_done), .locOut(_locOut), .empStck(_empStck));
+        stckQue CUT2(.clk(_clk), .locIn(_locIn), .rst(_rst), .push(_push), .pop(_pop), .done(_done), .locOut(_locOut), .empStck(_empStck));
 
         always #5 _clk <= ~_clk;
         initial begin

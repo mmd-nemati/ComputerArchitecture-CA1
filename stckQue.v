@@ -2,7 +2,7 @@
 `define STACK 1'b0
 `define QUEUE 1'b1
 
-module stack(clk, rst, locIn, push, pop, done, run, locOut, move, empStck);
+module stckQue(clk, rst, locIn, push, pop, done, run, locOut, move, empStck);
         input clk, rst, push, pop, done, run;
         input [7:0] locIn;
         output [7:0] locOut;
